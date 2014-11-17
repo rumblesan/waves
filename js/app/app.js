@@ -2,22 +2,23 @@
 /*global define, requestAnimationFrame */
 
 define([
-    'app/sea',
+    'three',
+    'app/sea'
 ], function(
+    three,
     sea
 ) {
 
-    var app = function (w, d, t) {
+    var app = function (w, d) {
 
         var scene,
             camera,
             renderer,
-            geometry,
-            material,
-            cube,
+            seaMesh,
             body,
             sceneWidth,
-            sceneHeight;
+            sceneHeight,
+            directionalLight;
 
         sceneWidth = w.innerWidth;
         sceneHeight = w.innerHeight;
@@ -25,9 +26,9 @@ define([
         body = d.createElement("body");
         d.body = body;
 
-        scene = new t.Scene();
+        scene = new three.Scene();
 
-        camera = new t.OrthographicCamera(
+        camera = new three.OrthographicCamera(
             sceneWidth  / -2,
             sceneWidth  /  2,
             sceneHeight /  2,
@@ -35,21 +36,31 @@ define([
             -500,
             1000
         );
-        camera.x = 1;
-        camera.y = 1;
-        camera.z = 1;
+        camera.position.x = 200;
+        camera.position.y = 200;
+        camera.position.z = 200;
         camera.lookAt(scene.position);
 
-        renderer = new t.WebGLRenderer();
+        renderer = new three.WebGLRenderer();
+
         renderer.setSize(w.innerWidth, w.innerHeight);
         body.appendChild(renderer.domElement);
 
 
-        geometry = sea.createSea(t);
-        material = new t.MeshBasicMaterial({ color: 0x00ff00 });
-        sea = new t.Mesh(geometry, material);
-        scene.add(sea);
+        directionalLight = new three.DirectionalLight( 0xffffff, 1 );
+        directionalLight.position.x = 100;
+        directionalLight.position.y = 100;
+        directionalLight.position.z = -50;
+        directionalLight.castShadow = true;
+        scene.add( directionalLight );
 
+
+        seaMesh = sea.createSea(15, 15, 100);
+        seaMesh.translateZ(-600);
+        seaMesh.translateX(-600);
+        scene.add(seaMesh);
+
+        //scene.add( new t.AmbientLight( 0xffffff) );
         var render = function () {
             requestAnimationFrame(render);
             renderer.render(scene, camera);
