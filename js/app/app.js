@@ -1,7 +1,11 @@
 /*jslint */
 /*global define, requestAnimationFrame */
 
-define([], function() {
+define([
+    'app/sea',
+], function(
+    sea
+) {
 
     var app = function (w, d, t) {
 
@@ -11,34 +15,43 @@ define([], function() {
             geometry,
             material,
             cube,
-            body;
+            body,
+            sceneWidth,
+            sceneHeight;
+
+        sceneWidth = w.innerWidth;
+        sceneHeight = w.innerHeight;
 
         body = d.createElement("body");
         d.body = body;
 
         scene = new t.Scene();
-        camera = new t.PerspectiveCamera(
-            75,
-            w.innerWidth / w.innerHeight,
-            0.1,
+
+        camera = new t.OrthographicCamera(
+            sceneWidth  / -2,
+            sceneWidth  /  2,
+            sceneHeight /  2,
+            sceneHeight / -2,
+            -500,
             1000
         );
+        camera.x = 1;
+        camera.y = 1;
+        camera.z = 1;
+        camera.lookAt(scene.position);
 
         renderer = new t.WebGLRenderer();
         renderer.setSize(w.innerWidth, w.innerHeight);
         body.appendChild(renderer.domElement);
 
-        geometry = new t.BoxGeometry(1, 1, 1);
-        material = new t.MeshBasicMaterial({ color: 0x00ff00 });
-        cube = new t.Mesh(geometry, material);
-        scene.add(cube);
 
-        camera.position.z = 5;
+        geometry = sea.createSea(t);
+        material = new t.MeshBasicMaterial({ color: 0x00ff00 });
+        sea = new t.Mesh(geometry, material);
+        scene.add(sea);
 
         var render = function () {
             requestAnimationFrame(render);
-            cube.rotation.x += 0.1;
-            cube.rotation.y += 0.1;
             renderer.render(scene, camera);
         };
 
