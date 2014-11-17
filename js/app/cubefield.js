@@ -6,15 +6,16 @@ define([], function() {
     var cubeField = {};
 
     cubeField.create = function (three, width, depth) {
-        var w, h, cubes, c, spacing;
+        var w, h, cubes, c, size, spacing;
 
-        spacing = 30;
+        size = 30;
+        spacing = size * 1.5;
         cubes = [];
         for (w = 0; w < width; w += 1) {
             for (h = 0; h < depth; h += 1) {
                 c = new three.Mesh(
-                    new three.BoxGeometry(spacing * 0.8, spacing * 0.8, spacing * 0.8),
-                    new three.MeshBasicMaterial({ color: 0x00ff00 })
+                    new three.BoxGeometry(size, size, size),
+                    new three.MeshLambertMaterial({color: 0xff0000})
                 );
                 c.position.x = (w * spacing);
                 c.position.z = (h * spacing);
