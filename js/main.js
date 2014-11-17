@@ -3,7 +3,8 @@
 
 requirejs.config({
     paths: {
-        three: 'lib/three.min'
+        three: 'lib/three.min',
+        domReady: 'lib/domReady'
     },
     shim: {
         three: {
@@ -14,12 +15,15 @@ requirejs.config({
 });
 
 require([
+    'domReady!',
     'three',
     'app/app'
 ], function(
+    doc,
     three,
     app
 ) {
-    app(window, document, three);
+    console.log('App loaded');
+    app(window, doc, three);
 });
 
