@@ -93,7 +93,7 @@ define([
             geometry.computeVertexNormals();
         }
 
-        material = new three.MeshLambertMaterial({color: 0xffffff}); 
+        material = new three.MeshLambertMaterial({color: 0x09BDE6});
         mesh = new three.Mesh(geometry, material);
         mesh.castShadow = true;
         mesh.receiveShadow = true;
