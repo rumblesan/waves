@@ -1,5 +1,5 @@
 /*jslint */
-/*global define, requestAnimationFrame */
+/*global define */
 
 define([
     'three',
@@ -9,22 +9,13 @@ define([
     sea
 ) {
 
-    var app = function (w, d) {
+    var create = function (sceneWidth, sceneHeight) {
 
         var scene,
             camera,
             renderer,
             seaMesh,
-            body,
-            sceneWidth,
-            sceneHeight,
             directionalLight;
-
-        sceneWidth = w.innerWidth;
-        sceneHeight = w.innerHeight;
-
-        body = d.createElement("body");
-        d.body = body;
 
         scene = new three.Scene();
 
@@ -43,9 +34,7 @@ define([
 
         renderer = new three.WebGLRenderer();
 
-        renderer.setSize(w.innerWidth, w.innerHeight);
-        body.appendChild(renderer.domElement);
-
+        renderer.setSize(sceneWidth, sceneHeight);
 
         directionalLight = new three.DirectionalLight( 0xffffff, 1 );
         directionalLight.position.x = 100;
@@ -61,16 +50,16 @@ define([
         scene.add(seaMesh);
 
         //scene.add( new t.AmbientLight( 0xffffff) );
-        var render = function () {
-            requestAnimationFrame(render);
-            renderer.render(scene, camera);
-        };
 
-        render();
+        return {
+            renderer: renderer,
+            scene: scene,
+            camera: camera
+        };
 
     };
 
-    return app;
+    return create;
 
 });
 

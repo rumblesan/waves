@@ -1,5 +1,5 @@
 /*jslint browser: true */
-/*global requirejs, require */
+/*global requirejs, require, requestAnimationFrame */
 
 requirejs.config({
     paths: {
@@ -21,9 +21,25 @@ require([
 ], function(
     doc,
     three,
-    app
+    createApp
 ) {
+    var body, app;
+
+    body = doc.createElement('body');
+    doc.body = body;
+
+    app = createApp(window.innerWidth, window.innerHeight);
+
+    body.appendChild(app.renderer.domElement);
+
+    var render = function () {
+        requestAnimationFrame(render);
+        app.renderer.render(app.scene, app.camera);
+    };
+
     console.log('App loaded');
-    app(window, doc, three);
+
+    render();
+
 });
 
