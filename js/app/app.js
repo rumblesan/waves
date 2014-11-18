@@ -50,8 +50,6 @@ define([
         sea.mesh.translateX(-600);
         scene.add(sea.mesh);
 
-        //scene.add( new t.AmbientLight( 0xffffff) );
-
         return {
             renderer: renderer,
             scene: scene,
