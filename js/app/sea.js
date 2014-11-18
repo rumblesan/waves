@@ -91,12 +91,12 @@ define([
             xR = x * privateState.waveXSeed;
             zR = z * privateState.waveZSeed;
             return (
-                    (sin(t + xR) +
-                     sin(t + (3 * xR)) +
-                     sin(t + (5 * xR)) +
-                     sin(t + zR) +
-                     sin(t + (3 * zR)) +
-                     sin(t + (5 * zR))
+                    (sin(t +  xR         + privateState.waveXSeed) +
+                     sin(t + (1.7  * xR) - privateState.waveXSeed) +
+                     sin(t + (0.19 * xR) + privateState.waveXSeed) +
+                     sin(t +  zR         + privateState.waveZSeed) +
+                     sin(t + (0.8  * zR) - privateState.waveZSeed) +
+                     sin(t + (0.35 * zR) + privateState.waveZSeed)
                     ) / 6) * privateState.height;
         };
 
@@ -121,8 +121,8 @@ define([
             width: width,
             depth: depth,
             height: height,
-            waveXSeed: Math.random(),
-            waveZSeed: Math.random()
+            waveXSeed: Math.random() + 0.4,
+            waveZSeed: Math.random() + 0.4
         };
 
         sea.points = Sea.createPoints(width, depth, size, height);

@@ -46,8 +46,8 @@ define([
 
 
         sea = Sea.createSea(15, 15, 100, 20, false);
-        sea.mesh.translateZ(-100);
-        sea.mesh.translateX(-100);
+        sea.mesh.translateZ(-130);
+        sea.mesh.translateX(-130);
         scene.add(sea.mesh);
 
         return {
