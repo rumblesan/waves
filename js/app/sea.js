@@ -1,4 +1,3 @@
-/*jslint */
 /*global define, requestAnimationFrame */
 
 define([
