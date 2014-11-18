@@ -21,16 +21,16 @@ define([
         scene = new Three.Scene();
 
         camera = new Three.OrthographicCamera(
-            sceneWidth  / -2,
-            sceneWidth  /  2,
-            sceneHeight /  2,
-            sceneHeight / -2,
+            sceneWidth  / -10,
+            sceneWidth  /  10,
+            sceneHeight /  10,
+            sceneHeight / -10,
             -500,
             1000
         );
-        camera.position.x = 200;
-        camera.position.y = 200;
-        camera.position.z = 200;
+        camera.position.x = 100;
+        camera.position.y = 100;
+        camera.position.z = 100;
         camera.lookAt(scene.position);
 
         renderer = new Three.WebGLRenderer();
@@ -45,9 +45,9 @@ define([
         scene.add( directionalLight );
 
 
-        sea = Sea.createSea(15, 15, 100);
-        sea.mesh.translateZ(-600);
-        sea.mesh.translateX(-600);
+        sea = Sea.createSea(15, 15, 100, 20, false);
+        sea.mesh.translateZ(-100);
+        sea.mesh.translateX(-100);
         scene.add(sea.mesh);
 
         return {

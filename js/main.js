@@ -35,7 +35,9 @@ require([
     speed = 0.01;
 
     var render = function (t) {
-        requestAnimationFrame(render(t + speed));
+        requestAnimationFrame(function () {
+            render(t + speed);
+        });
         app.renderer.render(app.scene, app.camera);
         app.animate(t);
     };

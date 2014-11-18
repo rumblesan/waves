@@ -11,6 +11,7 @@ define([
     Sea.createPoints = function (
         width,
         depth,
+        height,
         size
     ) {
 
@@ -29,7 +30,7 @@ define([
             for (z = 0; z < depth; z += 1) {
                 points.p[x][z] = new Three.Vector3(
                     x * size,
-                    Math.random() * 80,
+                    Math.random() * height,
                     z * size
                 );
             }
@@ -89,32 +90,42 @@ define([
             var xR, zR;
             xR = x * privateState.waveXSeed;
             zR = z * privateState.waveZSeed;
-            return sin(t + xR) + sin(t + (3 * xR)) + sin(t + (5 * xR)) +
-                   sin(t + zR) + sin(t + (3 * zR)) + sin(t + (5 * zR));
+            return (
+                    (sin(t + xR) +
+                     sin(t + (3 * xR)) +
+                     sin(t + (5 * xR)) +
+                     sin(t + zR) +
+                     sin(t + (3 * zR)) +
+                     sin(t + (5 * zR))
+                    ) / 6) * privateState.height;
         };
 
         return function (t) {
             var x, z;
             for (x = 0; x < privateState.width; x += 1) {
                 for (z = 0; z < privateState.depth; z += 1) {
-                    sea.points.p[x][z].setZ(calcVal(t,x, z));
+                    sea.points.p[x][z].setY(calcVal(t,x, z));
                 }
             }
+            sea.mesh.geometry.verticesNeedUpdate = true;
+            sea.mesh.geometry.normalsNeedUpdate = true;
+            sea.mesh.geometry.computeFaceNormals();
         };
 
     };
 
-    Sea.createSea = function (width, depth, size, smooth) {
+    Sea.createSea = function (width, depth, size, height, smooth) {
         var sea, privateState;
         sea = {};
         privateState = {
             width: width,
             depth: depth,
+            height: height,
             waveXSeed: Math.random(),
             waveZSeed: Math.random()
         };
 
-        sea.points = Sea.createPoints(width, depth, size);
+        sea.points = Sea.createPoints(width, depth, size, height);
 
         sea.geometry = Sea.createGeometry(sea.points);
 
