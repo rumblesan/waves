@@ -15,7 +15,7 @@ define([
         size
     ) {
 
-        var x, z, points;
+        var x, z, points, offsetX, offsetZ;
 
         size = (size || 10);
 
@@ -28,10 +28,12 @@ define([
         for (x = 0; x < width; x += 1) {
             points.p[x] = [];
             for (z = 0; z < depth; z += 1) {
+                offsetX = (Math.random() - 0.5) * 0.4;
+                offsetZ = (Math.random() - 0.5) * 0.4;
                 points.p[x][z] = new Three.Vector3(
-                    x * size,
+                    (x + offsetX) * size,
                     Math.random() * height,
-                    z * size
+                    (z + offsetZ) * size
                 );
             }
         }
