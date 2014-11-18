@@ -4,21 +4,23 @@ define([
     'three',
     'app/sea'
 ], function(
-    three,
-    sea
+    Three,
+    Sea
 ) {
 
-    var create = function (sceneWidth, sceneHeight) {
+    var App = {};
+
+    App.create = function (sceneWidth, sceneHeight) {
 
         var scene,
             camera,
             renderer,
-            seaMesh,
+            sea,
             directionalLight;
 
-        scene = new three.Scene();
+        scene = new Three.Scene();
 
-        camera = new three.OrthographicCamera(
+        camera = new Three.OrthographicCamera(
             sceneWidth  / -2,
             sceneWidth  /  2,
             sceneHeight /  2,
@@ -31,11 +33,11 @@ define([
         camera.position.z = 200;
         camera.lookAt(scene.position);
 
-        renderer = new three.WebGLRenderer();
+        renderer = new Three.WebGLRenderer();
 
         renderer.setSize(sceneWidth, sceneHeight);
 
-        directionalLight = new three.DirectionalLight( 0xffffff, 1 );
+        directionalLight = new Three.DirectionalLight( 0xffffff, 1 );
         directionalLight.position.x = 100;
         directionalLight.position.y = 100;
         directionalLight.position.z = -50;
@@ -43,10 +45,10 @@ define([
         scene.add( directionalLight );
 
 
-        seaMesh = sea.createSea(15, 15, 100);
-        seaMesh.translateZ(-600);
-        seaMesh.translateX(-600);
-        scene.add(seaMesh);
+        sea = Sea.createSea(15, 15, 100);
+        sea.mesh.translateZ(-600);
+        sea.mesh.translateX(-600);
+        scene.add(sea.mesh);
 
         //scene.add( new t.AmbientLight( 0xffffff) );
 
@@ -58,7 +60,7 @@ define([
 
     };
 
-    return create;
+    return App;
 
 });
 

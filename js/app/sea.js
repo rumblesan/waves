@@ -3,12 +3,12 @@
 define([
     'three'
 ], function(
-    three
+    Three
 ) {
 
-    var sea = {};
+    var Sea = {};
 
-    sea.createPoints = function (
+    Sea.createPoints = function (
         width,
         depth,
         size
@@ -27,7 +27,7 @@ define([
         for (x = 0; x < width; x += 1) {
             points.p[x] = [];
             for (z = 0; z < depth; z += 1) {
-                points.p[x][z] = new three.Vector3(
+                points.p[x][z] = new Three.Vector3(
                     x * size,
                     Math.random() * 80,
                     z * size
@@ -38,11 +38,11 @@ define([
         return points;
     };
 
-    sea.createGeometry = function (width, depth, size) {
+    Sea.createGeometry = function (width, depth, size) {
 
         var geometry, points, x, z, triangles, t;
 
-        points = sea.createPoints(width, depth, size);
+        points = Sea.createPoints(width, depth, size);
 
         triangles = [];
 
@@ -54,16 +54,16 @@ define([
                 p1 = x + ( z      * points.depth);
                 p2 = x + ( z      * points.depth) + 1;
                 p3 = x + ((z + 1) * points.depth);
-                triangles.push(new three.Face3(p1, p2, p3));
+                triangles.push(new Three.Face3(p1, p2, p3));
 
                 p1 = x + ( z      * points.depth) + 1;
                 p2 = x + ((z + 1) * points.depth) + 1;
                 p3 = x + ((z + 1) * points.depth);
-                triangles.push(new three.Face3(p1, p2, p3));
+                triangles.push(new Three.Face3(p1, p2, p3));
             }
         }
 
-        geometry = new three.Geometry();
+        geometry = new Three.Geometry();
 
         for (x = 0; x < points.width; x += 1) {
             for (z = 0; z < points.depth; z += 1) {
@@ -81,24 +81,25 @@ define([
 
     };
 
-    sea.createSea = function (width, depth, size, smooth) {
-        var geometry, material, mesh;
-        geometry = sea.createGeometry(width, depth, size);
+    Sea.createSea = function (width, depth, size, smooth) {
+        var sea = {};
+
+        sea.geometry = Sea.createGeometry(width, depth, size);
 
         // create per face shadows
-        geometry.computeFaceNormals();
+        sea.geometry.computeFaceNormals();
         // smooth shadows
         if (smooth) {
-            geometry.computeVertexNormals();
+            sea.geometry.computeVertexNormals();
         }
 
-        material = new three.MeshLambertMaterial({color: 0x09BDE6});
-        mesh = new three.Mesh(geometry, material);
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
-        return mesh;
+        sea.material = new Three.MeshLambertMaterial({color: 0x09BDE6});
+        sea.mesh = new Three.Mesh(sea.geometry, sea.material);
+        sea.mesh.castShadow = true;
+        sea.mesh.receiveShadow = true;
+        return sea;
     };
 
-    return sea;
+    return Sea;
 
 });

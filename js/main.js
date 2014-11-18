@@ -21,14 +21,14 @@ require([
 ], function(
     doc,
     three,
-    createApp
+    App
 ) {
     var body, app;
 
     body = doc.createElement('body');
     doc.body = body;
 
-    app = createApp(window.innerWidth, window.innerHeight);
+    app = App.create(window.innerWidth, window.innerHeight);
 
     body.appendChild(app.renderer.domElement);
 
