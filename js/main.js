@@ -23,7 +23,7 @@ require([
     three,
     App
 ) {
-    var body, app;
+    var body, app, speed;
 
     body = doc.createElement('body');
     doc.body = body;
@@ -32,14 +32,17 @@ require([
 
     body.appendChild(app.renderer.domElement);
 
-    var render = function () {
-        requestAnimationFrame(render);
+    speed = 0.01;
+
+    var render = function (t) {
+        requestAnimationFrame(render(t + speed));
         app.renderer.render(app.scene, app.camera);
+        app.animate(t);
     };
 
     console.log('App loaded');
 
-    render();
+    render(0);
 
 });
 

@@ -38,11 +38,9 @@ define([
         return points;
     };
 
-    Sea.createGeometry = function (width, depth, size) {
+    Sea.createGeometry = function (points) {
 
-        var geometry, points, x, z, triangles, t;
-
-        points = Sea.createPoints(width, depth, size);
+        var geometry, x, z, triangles, t;
 
         triangles = [];
 
@@ -81,10 +79,44 @@ define([
 
     };
 
-    Sea.createSea = function (width, depth, size, smooth) {
-        var sea = {};
+    Sea.animate = function (sea, privateState) {
 
-        sea.geometry = Sea.createGeometry(width, depth, size);
+        var sin, calcVal;
+
+        sin = Math.sin;
+
+        calcVal = function(t, x, z) {
+            var xR, zR;
+            xR = x * privateState.waveXSeed;
+            zR = z * privateState.waveZSeed;
+            return sin(t + xR) + sin(t + (3 * xR)) + sin(t + (5 * xR)) +
+                   sin(t + zR) + sin(t + (3 * zR)) + sin(t + (5 * zR));
+        };
+
+        return function (t) {
+            var x, z;
+            for (x = 0; x < privateState.width; x += 1) {
+                for (z = 0; z < privateState.depth; z += 1) {
+                    sea.points.p[x][z].setZ(calcVal(t,x, z));
+                }
+            }
+        };
+
+    };
+
+    Sea.createSea = function (width, depth, size, smooth) {
+        var sea, privateState;
+        sea = {};
+        privateState = {
+            width: width,
+            depth: depth,
+            waveXSeed: Math.random(),
+            waveZSeed: Math.random()
+        };
+
+        sea.points = Sea.createPoints(width, depth, size);
+
+        sea.geometry = Sea.createGeometry(sea.points);
 
         // create per face shadows
         sea.geometry.computeFaceNormals();
@@ -97,6 +129,9 @@ define([
         sea.mesh = new Three.Mesh(sea.geometry, sea.material);
         sea.mesh.castShadow = true;
         sea.mesh.receiveShadow = true;
+
+        sea.animate = Sea.animate(sea, privateState);
+
         return sea;
     };
 

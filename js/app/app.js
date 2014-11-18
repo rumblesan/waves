@@ -53,7 +53,10 @@ define([
         return {
             renderer: renderer,
             scene: scene,
-            camera: camera
+            camera: camera,
+            animate: function (t) {
+                sea.animate(t);
+            }
         };
 
     };
