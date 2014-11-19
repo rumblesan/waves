@@ -14,7 +14,7 @@ define([
             colour,
             intensity
         );
-        directionalLight.position.x = 100;
+        directionalLight.position.x = 0;
         directionalLight.position.y = 100;
         directionalLight.position.z = -50;
         directionalLight.castShadow = true;
