@@ -19,7 +19,9 @@ define([
         cliffHeight,
         tileSize
     ) {
-        var x, z, points, offsetX, offsetZ, h;
+        var x, z, points, offsetX, offsetZ, h, n;
+
+        perlin.seed(Math.random());
 
         points = {
             width: width,
@@ -35,7 +37,10 @@ define([
                     offsetX = 0;
                     offsetZ = 0;
                 } else {
-                    h = (Math.random() * terrainHeight) + cliffHeight;
+                    n = Math.abs(perlin.simplex2(x/10, z/10));
+                    h = (
+                        n * terrainHeight
+                    ) + cliffHeight;
                     offsetX = (Math.random() - 0.5) * 0.4;
                     offsetZ = (Math.random() - 0.5) * 0.4;
                 }
