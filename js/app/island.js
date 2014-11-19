@@ -30,9 +30,15 @@ define([
         for (x = 0; x < width; x += 1) {
             points.p[x] = [];
             for (z = 0; z < depth; z += 1) {
-                offsetX = (Math.random() - 0.5) * 0.4;
-                offsetZ = (Math.random() - 0.5) * 0.4;
-                h = (Math.random() * terrainHeight) + cliffHeight;
+                if (x === 0 || x === (width - 1) || z === 0 || z === (depth - 1)) {
+                    h = 1;
+                    offsetX = 0;
+                    offsetZ = 0;
+                } else {
+                    h = (Math.random() * terrainHeight) + cliffHeight;
+                    offsetX = (Math.random() - 0.5) * 0.4;
+                    offsetZ = (Math.random() - 0.5) * 0.4;
+                }
                 points.p[x][z] = new Three.Vector3(
                     (x + offsetX) * tileSize,
                     h,
