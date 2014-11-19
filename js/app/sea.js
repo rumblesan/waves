@@ -117,7 +117,9 @@ define([
     };
 
     Sea.createSea = function (width, depth, size, height, smooth) {
-        var sea, privateState;
+
+        var sea, privateState, seaColour;
+
         sea = {};
         privateState = {
             width: width,
@@ -138,7 +140,18 @@ define([
             sea.geometry.computeVertexNormals();
         }
 
-        sea.material = new Three.MeshLambertMaterial({color: 0x09BDE6});
+        seaColour = 0x09BDE6;
+
+        sea.material = new Three.MeshPhongMaterial(
+            {
+                ambient: 0x030308,
+                color: seaColour,
+                specular: 0x009999,
+                shininess: 20,
+                shading: Three.FlatShading
+            }
+        );
+
         sea.mesh = new Three.Mesh(sea.geometry, sea.material);
         sea.mesh.castShadow = true;
         sea.mesh.receiveShadow = true;
