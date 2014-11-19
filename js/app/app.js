@@ -35,7 +35,7 @@ define([
 
         scene.add(Lights.createAmbient(0x001100));
 
-        sea = Sea.createSea(15, 15, 20, 20, false);
+        sea = Sea.createSea(20, 20, 15, 15, false);
         sea.mesh.translateZ(-130);
         sea.mesh.translateX(-130);
         scene.add(sea.mesh);
