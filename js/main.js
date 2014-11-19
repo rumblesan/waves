@@ -4,12 +4,17 @@
 requirejs.config({
     paths: {
         three: 'lib/three.min',
-        domReady: 'lib/domReady'
+        domReady: 'lib/domReady',
+        perlin: 'lib/perlin'
     },
     shim: {
         three: {
             deps: [],
             exports: 'THREE'
+        },
+        perlin: {
+            deps: [],
+            exports: 'noise'
         }
     }
 });
