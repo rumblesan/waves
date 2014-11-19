@@ -8,7 +8,20 @@ define([
     Terrain
 ) {
 
-    var Sea = {};
+    var Sea,
+        params;
+
+    Sea = {};
+
+    params = {
+        waveJumble: 0.4,
+        xWaveFreq1: 1.7,
+        xWaveFreq2: 0.19,
+        xWaveRand: Math.random() + 0.4,
+        zWaveFreq1: 0.8,
+        zWaveFreq2: 0.34,
+        zWaveRand: Math.random() + 0.4,
+    };
 
     Sea.createPoints = function (
         width,
@@ -27,8 +40,8 @@ define([
         for (x = 0; x < width; x += 1) {
             points.p[x] = [];
             for (z = 0; z < depth; z += 1) {
-                offsetX = (Math.random() - 0.5) * 0.4;
-                offsetZ = (Math.random() - 0.5) * 0.4;
+                offsetX = (Math.random() - 0.5) * params.waveJumble;
+                offsetZ = (Math.random() - 0.5) * params.waveJumble;
                 points.p[x][z] = new Three.Vector3(
                     (x + offsetX) * tileSize,
                     0,
@@ -45,8 +58,8 @@ define([
 
         var sin, calcVal, waveXSeed, waveZSeed, waveHeight;
 
-        waveXSeed  = privateState.waveXSeed;
-        waveZSeed  = privateState.waveZSeed;
+        waveXSeed  = params.xWaveRand;
+        waveZSeed  = params.zWaveRand;
         waveHeight = privateState.waveHeight;
 
         sin = Math.sin;
@@ -56,12 +69,12 @@ define([
             xR = x * waveXSeed;
             zR = z * waveZSeed;
             return (
-                    (sin(t +  xR         + waveXSeed) +
-                     sin(t + (1.7  * xR) - waveXSeed) +
-                     sin(t + (0.19 * xR) + waveXSeed) +
-                     sin(t +  zR         + waveZSeed) +
-                     sin(t + (0.8  * zR) - waveZSeed) +
-                     sin(t + (0.35 * zR) + waveZSeed)
+                    (sin(t +  xR                      + waveXSeed) +
+                     sin(t + (params.xWaveFreq1 * xR) - waveXSeed) +
+                     sin(t + (params.xWaveFreq2 * xR) + waveXSeed) +
+                     sin(t +  zR                      + waveZSeed) +
+                     sin(t + (params.zWaveFreq1 * zR) - waveZSeed) +
+                     sin(t + (params.zWaveFreq2 * zR) + waveZSeed)
                     ) / 6) * waveHeight;
         };
 
@@ -87,9 +100,7 @@ define([
         privateState = {
             width: width,
             depth: depth,
-            waveHeight: waveHeight,
-            waveXSeed: Math.random() + 0.4,
-            waveZSeed: Math.random() + 0.4
+            waveHeight: waveHeight
         };
 
         sea.points = Sea.createPoints(width, depth, tileSize);
@@ -105,10 +116,10 @@ define([
 
         sea.material = new Three.MeshPhongMaterial(
             {
-                ambient: 0x030308,
+                ambient: 0xff0000,
                 color: 0x09BDE6,
-                specular: 0x009999,
-                shininess: 20,
+                specular: 0x999966,
+                shininess: 12,
                 shading: Three.FlatShading
             }
         );
