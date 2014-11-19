@@ -4,12 +4,14 @@ define([
     'three',
     'app/camera',
     'app/lights',
-    'app/sea'
+    'app/sea',
+    'app/island'
 ], function(
     Three,
     Camera,
     Lights,
-    Sea
+    Sea,
+    Island
 ) {
 
     var App = {};
@@ -20,6 +22,7 @@ define([
             camera,
             renderer,
             sea,
+            island,
             directionalLight;
 
         scene = new Three.Scene();
@@ -36,6 +39,9 @@ define([
         sea.mesh.translateZ(-130);
         sea.mesh.translateX(-130);
         scene.add(sea.mesh);
+
+        island = Island.create(8, 12, 200, 50, 10);
+        //scene.add(island);
 
         camera = Camera.create(sceneWidth, sceneHeight, scene);
 
