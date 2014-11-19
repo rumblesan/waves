@@ -40,7 +40,7 @@ define([
         sea.mesh.translateX(-130);
         scene.add(sea.mesh);
 
-        island = Island.create(8, 12, 200, 50, 10);
+        //island = Island.create(8, 12, 200, 50, 10);
         //scene.add(island);
 
         camera = Camera.create(sceneWidth, sceneHeight, scene);
