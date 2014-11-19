@@ -13,13 +13,13 @@ define([
     var Island = {};
 
     Island.createPoints = function(
-        width, depth, height, cliffHeight, size
+        width,
+        depth,
+        terrainHeight,
+        cliffHeight,
+        tileSize
     ) {
         var x, z, points, offsetX, offsetZ, h;
-
-        perlin.seed(Math.random());
-
-        size = (size || 10);
 
         points = {
             width: width,
@@ -32,15 +32,11 @@ define([
             for (z = 0; z < depth; z += 1) {
                 offsetX = (Math.random() - 0.5) * 0.4;
                 offsetZ = (Math.random() - 0.5) * 0.4;
-                h = (perlin.simplex2(x, z) * height) + cliffHeight;
-
-                if (x === 0 || x === (width - 1) || z === 0 || z === (depth - 1)) {
-                    h = 0;
-                }
+                h = (Math.random() * terrainHeight) + cliffHeight;
                 points.p[x][z] = new Three.Vector3(
-                    (x + offsetX) * size,
+                    (x + offsetX) * tileSize,
                     h,
-                    (z + offsetZ) * size
+                    (z + offsetZ) * tileSize
                 );
             }
         }
@@ -49,12 +45,15 @@ define([
     };
 
 
-    Island.create = function (width, depth, height, cliffHeight, size, smooth) {
+    // cliffHeight is the hight of the cliffs at the edge of the island
+    // terrainHeight is the high of hills on the island
+    // max island height is terrainHeight + cliffHeight
+    Island.create = function (width, depth, terrainHeight, cliffHeight, tileSize, smooth) {
 
         var island = {};
 
         island.points = Island.createPoints(
-            width, depth, height, cliffHeight, size
+            width, depth, terrainHeight, cliffHeight, tileSize
         );
 
         island.geometry = Terrain.createGeometry(island.points);
