@@ -19,14 +19,14 @@ define([
         // Also ordering of points is important
         for (x = 0; x < (points.width -1); x += 1) {
             for (z = 0; z < (points.depth -1); z += 1) {
-                p1 = x + ( z      * points.depth);
-                p2 = x + ( z      * points.depth) + 1;
-                p3 = x + ((z + 1) * points.depth);
+                p1 = z + ( x      * points.depth);
+                p2 = z + ( x      * points.depth) + 1;
+                p3 = z + ((x + 1) * points.depth);
                 triangles.push(new Three.Face3(p1, p2, p3));
 
-                p1 = x + ( z      * points.depth) + 1;
-                p2 = x + ((z + 1) * points.depth) + 1;
-                p3 = x + ((z + 1) * points.depth);
+                p1 = z + ( x      * points.depth) + 1;
+                p2 = z + ((x + 1) * points.depth) + 1;
+                p3 = z + ((x + 1) * points.depth);
                 triangles.push(new Three.Face3(p1, p2, p3));
             }
         }
