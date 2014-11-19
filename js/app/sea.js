@@ -13,7 +13,6 @@ define([
     Sea.createPoints = function (
         width,
         depth,
-        waveHeight,
         tileSize
     ) {
 
@@ -32,7 +31,7 @@ define([
                 offsetZ = (Math.random() - 0.5) * 0.4;
                 points.p[x][z] = new Three.Vector3(
                     (x + offsetX) * tileSize,
-                    Math.random() * waveHeight,
+                    0,
                     (z + offsetZ) * tileSize
                 );
             }
@@ -93,7 +92,7 @@ define([
             waveZSeed: Math.random() + 0.4
         };
 
-        sea.points = Sea.createPoints(width, depth, waveHeight, tileSize);
+        sea.points = Sea.createPoints(width, depth, tileSize);
 
         sea.geometry = Terrain.createGeometry(sea.points);
 
