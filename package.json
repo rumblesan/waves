@@ -2,7 +2,7 @@
   "name": "waves",
   "version": "0.1.0",
   "description": "A three.js experiment",
-  "main": "js/main.js",
+  "main": "src/main.js",
   "author": "Guy John",
   "license": "BSD-3",
   "scripts": {
