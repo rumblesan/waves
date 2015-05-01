@@ -1,41 +1,19 @@
 /*jslint browser: true */
-/*global requirejs, require, requestAnimationFrame */
+/*global require, requestAnimationFrame */
 
-requirejs.config({
-    paths: {
-        three: 'lib/three.min',
-        domReady: 'lib/domReady',
-        perlin: 'lib/perlin'
-    },
-    shim: {
-        three: {
-            deps: [],
-            exports: 'THREE'
-        },
-        perlin: {
-            deps: [],
-            exports: 'noise'
-        }
-    }
-});
+var domReady = require('./lib/domReady');
+var Waves = require('./app/waves');
 
-require([
-    'domReady!',
-    'three',
-    'app/app'
-], function(
-    doc,
-    three,
-    App
-) {
-    var body, app, speed;
+domReady(function() {
 
-    body = doc.createElement('body');
-    doc.body = body;
+    var body, waves, speed;
 
-    app = App.create(window.innerWidth, window.innerHeight);
+    body = document.createElement('body');
+    document.body = body;
 
-    body.appendChild(app.renderer.domElement);
+    waves = Waves.create(window.innerWidth, window.innerHeight);
+
+    body.appendChild(waves.renderer.domElement);
 
     speed = 0.01;
 
@@ -43,11 +21,11 @@ require([
         requestAnimationFrame(function () {
             render(t + speed);
         });
-        app.renderer.render(app.scene, app.camera);
-        app.animate(t);
+        waves.renderer.render(waves.scene, waves.camera);
+        waves.animate(t);
     };
 
-    console.log('App loaded');
+    console.log('Waves loaded');
 
     render(0);
 
