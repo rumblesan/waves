@@ -6,9 +6,12 @@
   "author": "Guy John",
   "license": "BSD-3",
   "scripts": {
-    "build": "browserify . > ./dist/app.js",
+    "compile": "browserify . > ./dist/app.js",
+    "build": "npm run compile",
+    "postbuild": "cp -r ./html/* ./dist/; cat ./style/*.css > ./dist/style.css;",
     "pages": "git checkout gh-pages; git add ./dist/app.js index.html ./css/style.css favicon.ico; git ci -m 'Updating pages'; git push origin gh-pages",
-    "postpages": "git checkout master;"
+    "postpages": "git checkout master;",
+    "serve": "http-server ./dist"
   },
   "devDependencies": {
     "browserify": "^9.0.8",
