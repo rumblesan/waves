@@ -1,55 +1,44 @@
+import { Scene, WebGLRenderer, DirectionalLight, AmbientLight } from 'three';
 
-var Three = require('../lib/three.min');
+import { Camera } from './camera';
+import { Sea } from './sea';
+import { Island } from './island';
 
-var Camera = require('./camera');
-var Lights = require('./lights');
-var Sea = require('./sea');
-var Island = require('./island');
+export const Waves = (sceneWidth, sceneHeight) => {
+  const scene = new Scene();
 
-var Waves = {};
+  const renderer = new WebGLRenderer();
 
-Waves.create = function (sceneWidth, sceneHeight) {
+  renderer.setSize(sceneWidth, sceneHeight);
 
-    var scene,
-        camera,
-        renderer,
-        sea,
-        island,
-        directionalLight;
+  const directionalLight = new DirectionalLight(0xffaaff, 1);
+  directionalLight.position.x = 0;
+  directionalLight.position.y = 100;
+  directionalLight.position.z = -50;
+  directionalLight.castShadow = true;
+  scene.add(directionalLight);
 
-    scene = new Three.Scene();
+  scene.add(new AmbientLight(0x001100));
 
-    renderer = new Three.WebGLRenderer();
+  const sea = Sea(20, 20, 15, 15, false);
+  sea.mesh.translateZ(-130);
+  sea.mesh.translateX(-130);
+  scene.add(sea.mesh);
 
-    renderer.setSize(sceneWidth, sceneHeight);
+  const island = Island(9, 11, 10, 40, 7);
+  island.mesh.translateX(-20);
+  island.mesh.translateY(-20);
+  island.mesh.translateZ(-20);
+  scene.add(island.mesh);
 
-    scene.add(Lights.createDirectional(0xffaaff,1));
+  const camera = Camera(sceneWidth, sceneHeight, scene);
 
-    scene.add(Lights.createAmbient(0x001100));
-
-    sea = Sea.createSea(20, 20, 15, 15, false);
-    sea.mesh.translateZ(-130);
-    sea.mesh.translateX(-130);
-    scene.add(sea.mesh);
-
-    island = Island.create(9, 11, 10, 40, 7);
-    island.mesh.translateX(-20);
-    island.mesh.translateY(-20);
-    island.mesh.translateZ(-20);
-    scene.add(island.mesh);
-
-    camera = Camera.create(sceneWidth, sceneHeight, scene);
-
-    return {
-        renderer: renderer,
-        scene: scene,
-        camera: camera,
-        animate: function (t) {
-            sea.animate(t);
-        }
-    };
-
+  return {
+    renderer: renderer,
+    scene: scene,
+    camera: camera,
+    animate: function(t) {
+      sea.animate(t);
+    },
+  };
 };
-
-module.exports = Waves;
-

@@ -2,19 +2,37 @@
   "name": "waves",
   "version": "0.1.0",
   "description": "A three.js experiment",
-  "main": "src/main.js",
-  "author": "Guy John",
-  "license": "BSD-3",
+  "author": "Guy John <guy@rumblesan.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/rumblesan/waves/issues"
+  },
+  "homepage": "https://waves.rumblesan.com",
+  "repository": "rumblesan/waves",
   "scripts": {
-    "compile": "browserify . > ./dist/app.js",
-    "build": "npm run compile",
-    "postbuild": "cp -r ./html/* ./dist/; cat ./style/*.css > ./dist/style.css;",
-    "pages": "git checkout gh-pages; git add ./dist/app.js index.html ./css/style.css favicon.ico; git ci -m 'Updating pages'; git push origin gh-pages",
-    "postpages": "git checkout master;",
-    "serve": "http-server ./dist"
+    "start:dev": "NODE_ENV=development webpack-dev-server -d --mode development",
+    "build": "webpack-cli --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "browserify": "^9.0.8",
-    "http-server": "^0.8.0"
+    "babel-core": "6.26.3",
+    "babel-eslint": "7.2.3",
+    "babel-loader": "7.1.4",
+    "babel-polyfill": "6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "css-loader": "^0.28.11",
+    "eslint": "4.19.1",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-plugin-prettier": "2.6.0",
+    "file-loader": "^1.1.11",
+    "prettier": "1.13.4",
+    "source-map-loader": "^0.2.3",
+    "style-loader": "^0.21.0",
+    "webpack": "4.10.2",
+    "webpack-cli": "^3.0.0",
+    "webpack-dev-server": "^3.1.4"
+  },
+  "dependencies": {
+    "three": "^0.93.0"
   }
 }
