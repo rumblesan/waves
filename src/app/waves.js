@@ -1,6 +1,11 @@
-import { Scene, WebGLRenderer, DirectionalLight, AmbientLight } from 'three';
+import {
+  Scene,
+  WebGLRenderer,
+  DirectionalLight,
+  AmbientLight,
+  OrthographicCamera,
+} from 'three';
 
-import { Camera } from './camera';
 import { Sea } from './sea';
 import { Island } from './island';
 
@@ -8,7 +13,6 @@ export const Waves = (sceneWidth, sceneHeight) => {
   const scene = new Scene();
 
   const renderer = new WebGLRenderer();
-
   renderer.setSize(sceneWidth, sceneHeight);
 
   const directionalLight = new DirectionalLight(0xffaaff, 1);
@@ -31,14 +35,23 @@ export const Waves = (sceneWidth, sceneHeight) => {
   island.mesh.translateZ(-20);
   scene.add(island.mesh);
 
-  const camera = Camera(sceneWidth, sceneHeight, scene);
+  const camera = new OrthographicCamera(
+    sceneWidth / -10,
+    sceneWidth / 10,
+    sceneHeight / 10,
+    sceneHeight / -10,
+    -500,
+    1000
+  );
+  camera.position.x = 100;
+  camera.position.y = 100;
+  camera.position.z = 100;
+  camera.lookAt(scene.position);
 
   return {
     renderer: renderer,
     scene: scene,
     camera: camera,
-    animate: function(t) {
-      sea.animate(t);
-    },
+    animate: sea.animate,
   };
 };
