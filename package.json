@@ -2,13 +2,16 @@
   "name": "waves",
   "version": "0.1.0",
   "description": "A three.js experiment",
+  "homepage": "https://waves.rumblesan.com",
   "author": "Guy John <guy@rumblesan.com>",
   "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rumblesan/waves.git"
+  },
   "bugs": {
     "url": "https://github.com/rumblesan/waves/issues"
   },
-  "homepage": "https://waves.rumblesan.com",
-  "repository": "rumblesan/waves",
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server -d --mode development",
     "build": "webpack-cli --mode production",
@@ -29,7 +32,7 @@
     "source-map-loader": "0.2.3",
     "style-loader": "0.21.0",
     "webpack": "4.10.2",
-    "webpack-cli": "3.0.0",
+    "webpack-cli": "3.0.8",
     "webpack-dev-server": "3.1.4"
   },
   "dependencies": {
